@@ -21,6 +21,8 @@ services:
       - "3333:3333"
     depends_on:
       - database
+    environment:
+      - DATABASE_URL=postgresql://admin:admin@tutorial:5432/database
 
   reactapp:
     build: ./front
