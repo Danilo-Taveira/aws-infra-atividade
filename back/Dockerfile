@@ -1,20 +1,23 @@
-# Usar uma imagem base do Node
-FROM node:18
+# Imagem base leve do Node.js
+FROM node:18-alpine
 
-# Definir o diretório de trabalho no contêiner
-WORKDIR /usr/src/app
+# Diretório de trabalho no container
+WORKDIR /app
 
-# Copiar o arquivo de dependências primeiro para aproveitar o cache do Docker
+# Copia apenas os arquivos essenciais primeiro para aproveitar o cache
 COPY package*.json ./
 
-# Instalar as dependências
+# Instala dependências
 RUN npm install
 
-# Copiar os arquivos restantes do projeto
+# Copia o restante do projeto
 COPY . .
 
-# A porta que será exposta pelo contêiner
-EXPOSE 3333
+# Gera os arquivos do Prisma Client
+RUN npx prisma generate
 
-# Comando para rodar a aplicação
-CMD ["node", "src/server.js"]
+# Expõe a porta que o app escuta
+EXPOSE 3000
+
+# Comando padrão para iniciar o app
+CMD ["npm", "start"]
