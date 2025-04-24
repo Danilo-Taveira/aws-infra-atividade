@@ -17,7 +17,7 @@ COPY . .
 RUN npx prisma generate
 
 # Expõe a porta que o app escuta
-EXPOSE 3000
+EXPOSE 3333
 
 # Comando padrão para iniciar o app
 CMD ["npm", "start"]
