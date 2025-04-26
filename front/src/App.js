@@ -9,7 +9,7 @@ function App() {
       <div className="todos">
         {todos.map(todo => {
           return (
-            <div className="todo">
+            <div className="todo" key={todo.id}>
               <button
                 onClick={() => modifyStatusTodo(todo)}
                 className="checkbox"
@@ -28,6 +28,7 @@ function App() {
       </div>
     )
   }
+
   async function handleWithNewButton() {
     setInputVisibility(!inputVisibility)
   }
@@ -38,12 +39,12 @@ function App() {
   }
 
   async function getTodos() {
-    const response = await axios.get('http://44.204.161.57:3333/todos')
+    const response = await axios.get('http://danilotaveira.com.br:3333/todos')
     setTodos(response.data)
   }
 
   async function editTodo() {
-    await axios.put(`http://44.204.161.57:3333/todos`, {
+    await axios.put('http://danilotaveira.com.br:3333/todos', {
       id: selectedTodo.id,
       name: inputValue
     })
@@ -53,7 +54,7 @@ function App() {
   }
 
   async function modifyStatusTodo(todo) {
-    await axios.put(`http://44.204.161.57:3333/todos`, {
+    await axios.put('http://danilotaveira.com.br:3333/todos', {
       id: todo.id,
       status: !todo.status
     })
@@ -61,7 +62,7 @@ function App() {
   }
 
   async function createTodo() {
-    await axios.post('http://44.204.161.57:3333/todos', {
+    await axios.post('http://danilotaveira.com.br:3333/todos', {
       name: inputValue
     })
     getTodos()
@@ -70,7 +71,7 @@ function App() {
   }
 
   async function deleteTodo(todo) {
-    await axios.delete(`http://44.204.161.57:3333/todos/${todo.id}`)
+    await axios.delete(`http://danilotaveira.com.br:3333/todos/${todo.id}`)
     getTodos()
   }
 
@@ -78,16 +79,18 @@ function App() {
   const [inputValue, setInputValue] = useState('')
   const [inputVisibility, setInputVisibility] = useState(false)
   const [selectedTodo, setSelectedTodo] = useState()
+
   useEffect(() => {
     getTodos()
   }, [])
+
   return (
     <div className="App">
       <header className="container">
         <div className="header">
           <h1>Lista de Tarefas</h1>
         </div>
-        <Todos todos={todos} ></Todos>
+        <Todos todos={todos}></Todos>
         <input
           value={inputValue}
           placeholder='Digite a tarefa aqui'
