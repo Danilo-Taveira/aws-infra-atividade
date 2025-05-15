@@ -23,3 +23,6 @@ EXPOSE 80
 
 # Comando para rodar o servidor NGINX
 CMD ["nginx", "-g", "daemon off;"]
+
+# Copia a configuração customizada do NGINX
+COPY default.conf /etc/nginx/conf.d/default.conf

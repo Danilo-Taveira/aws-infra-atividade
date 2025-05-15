@@ -7,24 +7,22 @@ function App() {
   const Todos = ({ todos }) => {
     return (
       <div className="todos">
-        {todos.map(todo => {
-          return (
-            <div className="todo" key={todo.id}>
-              <button
-                onClick={() => modifyStatusTodo(todo)}
-                className="checkbox"
-                style={{ backgroundColor: todo.status ? '#0059ff' : 'white' }}
-              ></button>
-              <p>{todo.name}</p>
-              <button onClick={() => handleWithEditButtonClick(todo)}>
-                <AiOutlineEdit size={20} color={'#64697b'} />
-              </button>
-              <button onClick={() => deleteTodo(todo)}>
-                <AiOutlineDelete size={20} color={'#64697b'} />
-              </button>
-            </div>
-          )
-        })}
+        {todos.map(todo => (
+          <div className="todo" key={todo.id}>
+            <button
+              onClick={() => modifyStatusTodo(todo)}
+              className="checkbox"
+              style={{ backgroundColor: todo.status ? '#0059ff' : 'white' }}
+            ></button>
+            <p>{todo.name}</p>
+            <button onClick={() => handleWithEditButtonClick(todo)}>
+              <AiOutlineEdit size={20} color={'#64697b'} />
+            </button>
+            <button onClick={() => deleteTodo(todo)}>
+              <AiOutlineDelete size={20} color={'#64697b'} />
+            </button>
+          </div>
+        ))}
       </div>
     )
   }
@@ -39,12 +37,12 @@ function App() {
   }
 
   async function getTodos() {
-    const response = await axios.get('http://danilotaveira.com.br:3333/todos')
+    const response = await axios.get('/api/todos')
     setTodos(response.data)
   }
 
   async function editTodo() {
-    await axios.put('http://danilotaveira.com.br:3333/todos', {
+    await axios.put('/api/todos', {
       id: selectedTodo.id,
       name: inputValue
     })
@@ -54,7 +52,7 @@ function App() {
   }
 
   async function modifyStatusTodo(todo) {
-    await axios.put('http://danilotaveira.com.br:3333/todos', {
+    await axios.put('/api/todos', {
       id: todo.id,
       status: !todo.status
     })
@@ -62,7 +60,7 @@ function App() {
   }
 
   async function createTodo() {
-    await axios.post('http://danilotaveira.com.br:3333/todos', {
+    await axios.post('/api/todos', {
       name: inputValue
     })
     getTodos()
@@ -71,7 +69,7 @@ function App() {
   }
 
   async function deleteTodo(todo) {
-    await axios.delete(`http://danilotaveira.com.br:3333/todos/${todo.id}`)
+    await axios.delete(`/api/todos/${todo.id}`)
     getTodos()
   }
 
@@ -90,16 +88,14 @@ function App() {
         <div className="header">
           <h1>Lista de Tarefas</h1>
         </div>
-        <Todos todos={todos}></Todos>
+        <Todos todos={todos} />
         <input
           value={inputValue}
-          placeholder='Digite a tarefa aqui'
+          placeholder="Digite a tarefa aqui"
           style={{ display: inputVisibility ? 'block' : 'none' }}
-          onChange={event => {
-            setInputValue(event.target.value)
-          }}
+          onChange={event => setInputValue(event.target.value)}
           className="inputName"
-        ></input>
+        />
         <button
           onClick={
             inputVisibility
