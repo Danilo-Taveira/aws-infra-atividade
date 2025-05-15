@@ -15,7 +15,7 @@ services:
   #     - pgdata:/var/lib/postgresql/data
 
   nodeapp:
-    build: ./back
+    build: danilotaveiranavega/todolist-backend:latest
     restart: always
     ports:
       - "3333:3333"
@@ -23,7 +23,7 @@ services:
       - DATABASE_URL=postgresql://todolist_admin:todolist_senha@todolist-db.cyfddsnqioox.us-east-1.rds.amazonaws.com:5432/todolistdb
 
   reactapp:
-    build: ./front
+    build: danilotaveiranavega/todolist-frontend:latest
     restart: always
     ports:
       - "80:80"
