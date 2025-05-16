@@ -5,7 +5,7 @@ const cors = require('cors')
 
 app.use(express.json())
 app.use(cors())
-app.use(todosRoutes)
+app.use('/api', todosRoutes)
 
 app.get('/health', (req, res) => {
   res.send('Olá mundo!')
