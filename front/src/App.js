@@ -5,6 +5,10 @@ import axios from 'axios'
 
 function App() {
   const Todos = ({ todos }) => {
+    if (!Array.isArray(todos)) {
+      return <p>Erro: dados inválidos da API</p>
+    }
+
     return (
       <div className="todos">
         {todos.map(todo => (
@@ -37,8 +41,16 @@ function App() {
   }
 
   async function getTodos() {
-    const response = await axios.get('/api/todos')
-    setTodos(response.data)
+    try {
+      const response = await axios.get('/api/todos')
+      console.log('Resposta da API:', response.data)
+      // Garante que estamos lidando com um array
+      const data = Array.isArray(response.data) ? response.data : []
+      setTodos(data)
+    } catch (error) {
+      console.error('Erro ao buscar todos:', error)
+      setTodos([])
+    }
   }
 
   async function editTodo() {
