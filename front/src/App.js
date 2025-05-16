@@ -3,6 +3,12 @@ import './App.css'
 import { AiOutlineEdit, AiOutlineDelete } from 'react-icons/ai'
 import axios from 'axios'
 
+const apiBaseUrl = process.env.REACT_APP_API_URL || ''
+
+const api = axios.create({
+  baseURL: `${apiBaseUrl}/api`
+})
+
 function App() {
   const Todos = ({ todos }) => {
     if (!Array.isArray(todos)) {
@@ -42,9 +48,8 @@ function App() {
 
   async function getTodos() {
     try {
-      const response = await axios.get('/api/todos')
+      const response = await api.get('/todos')
       console.log('Resposta da API:', response.data)
-      // Garante que estamos lidando com um array
       const data = Array.isArray(response.data) ? response.data : []
       setTodos(data)
     } catch (error) {
@@ -54,7 +59,7 @@ function App() {
   }
 
   async function editTodo() {
-    await axios.put('/api/todos', {
+    await api.put('/todos', {
       id: selectedTodo.id,
       name: inputValue
     })
@@ -64,7 +69,7 @@ function App() {
   }
 
   async function modifyStatusTodo(todo) {
-    await axios.put('/api/todos', {
+    await api.put('/todos', {
       id: todo.id,
       status: !todo.status
     })
@@ -72,7 +77,7 @@ function App() {
   }
 
   async function createTodo() {
-    await axios.post('/api/todos', {
+    await api.post('/todos', {
       name: inputValue
     })
     getTodos()
@@ -81,7 +86,7 @@ function App() {
   }
 
   async function deleteTodo(todo) {
-    await axios.delete(`/api/todos/${todo.id}`)
+    await api.delete(`/todos/${todo.id}`)
     getTodos()
   }
 
